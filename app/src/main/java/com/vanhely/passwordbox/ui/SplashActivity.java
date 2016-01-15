@@ -1,13 +1,13 @@
 package com.vanhely.passwordbox.ui;
 
 import android.content.Intent;
+import android.view.View;
+import android.widget.TextView;
 
-import com.vanhely.passwordbox.config.Config;
-import com.vanhely.passwordbox.model.GameBean;
-import com.vanhely.passwordbox.model.SocialBean;
-import com.vanhely.passwordbox.model.ToolBean;
-import com.vanhely.passwordbox.ui.base.BaseActivity;
 import com.vanhely.passwordbox.R;
+import com.vanhely.passwordbox.config.Config;
+import com.vanhely.passwordbox.model.PasswordBean;
+import com.vanhely.passwordbox.ui.base.BaseActivity;
 
 import org.litepal.tablemanager.Connector;
 
@@ -16,8 +16,7 @@ import java.util.Date;
 /**
  * Created by Administrator on 2016/1/8 0008.
  */
-public class SplashActivity extends BaseActivity {
-
+public class SplashActivity extends BaseActivity implements View.OnClickListener {
 
 
     private String time;
@@ -32,19 +31,22 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initViewId() {
+        TextView skip = (TextView) findViewById(R.id.skip);
+        skip.setOnClickListener(this);
 
     }
 
     @Override
     public void initData() {
-
-        if (Config.splashStaus) {
+        boolean splashStaus = sp.getBoolean(Config.splashStaus, true);
+        if (splashStaus) {
             Date date = new Date();
-            time = String.format("%tF", date) + " " +String.format("%tT", date);
+            time = String.format("%tF", date) + " " + String.format("%tT", date);
             Connector.getDatabase();
             saveGameData();
             saveToolData();
             saveSocialData();
+
 
         } else {
             Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
@@ -66,28 +68,31 @@ public class SplashActivity extends BaseActivity {
 
         for (int i = 0; i < Config.gameCount; i++) {
 
-            GameBean game = new GameBean();
-            game.setLid(i);
-            game.setTitle(Config.gameNames[i]);
-            game.setUsername("");
-            game.setPassword("");
-            game.setSaveTime(time);
-            game.setDesc(Config.desc);
-            game.save();
+            PasswordBean passwordBean = new PasswordBean();
+            passwordBean.setTitle(Config.gameNames[i]);
+            passwordBean.setDesc(Config.desc);
+            passwordBean.setPassword("");
+            passwordBean.setUsername("");
+            passwordBean.setImage("1");
+            passwordBean.setType("game");
+            passwordBean.setSaveTime(time);
+            passwordBean.save();
+
         }
     }
 
     private void saveToolData() {
 
         for (int i = 0; i < Config.toolCount; i++) {
-            ToolBean tool = new ToolBean();
-            tool.setLid(i);
-            tool.setTitle(Config.toolNames[i]);
-            tool.setUsername("");
-            tool.setPassword("");
-            tool.setSaveTime(time);
-            tool.setDesc(Config.desc);
-            tool.save();
+            PasswordBean passwordBean = new PasswordBean();
+            passwordBean.setTitle(Config.toolNames[i]);
+            passwordBean.setDesc(Config.desc);
+            passwordBean.setPassword("");
+            passwordBean.setUsername("");
+            passwordBean.setImage("1");
+            passwordBean.setType("tool");
+            passwordBean.setSaveTime(time);
+            passwordBean.save();
         }
 
     }
@@ -95,15 +100,25 @@ public class SplashActivity extends BaseActivity {
     private void saveSocialData() {
 
         for (int i = 0; i < Config.socialCount; i++) {
-            SocialBean social = new SocialBean();
-            social.setLid(i);
-            social.setTitle(Config.socialNames[i]);
-            social.setUsername("");
-            social.setPassword("");
-            social.setSaveTime(time);
-            social.setDesc(Config.desc);
-            social.save();
+            PasswordBean passwordBean = new PasswordBean();
+            passwordBean.setTitle(Config.socialNames[i]);
+            passwordBean.setDesc(Config.desc);
+            passwordBean.setPassword("");
+            passwordBean.setUsername("");
+            passwordBean.setImage("1");
+            passwordBean.setType("social");
+            passwordBean.setSaveTime(time);
+            passwordBean.save();
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.skip:
+                Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                startActivity(intent);
+                finish();
+        }
+    }
 }

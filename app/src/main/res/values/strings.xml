@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PasswordBox</string>
+    <string name="app_name">密码盒子</string>
     <string name="action_settings">Settings</string>
     <string name="sp_filename">Config</string>
     <string name="desc">这家伙很懒什么都没有留</string>
@@ -8,6 +8,9 @@
     <string name="skip">SKIP</string>
     <string name="welcome">Welcome to PasswordBox.</string>
     <string name="welcomedesc">这可能是一款很好的密码管理APP。</string>
+    <string name="action_search">搜索</string>
+    <string name="action_backups">备份</string>
+    <string name="action_down">还原</string>
     <string-array name="game_names">
         <item>Steam</item>
         <item>PSN</item>
@@ -66,5 +69,9 @@
         <item>Bilibili</item>
         <item>AcFun</item>
     </string-array>
-
+    <string-array name="tab_title">
+        <item>游戏</item>
+        <item>工具</item>
+        <item>社交</item>
+    </string-array>
 </resources>

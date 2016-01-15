@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/toolbar" />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/data_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="80dp"
+        android:hint="标题"
+        app:met_clearButton="true"
+        app:met_floatingLabel="highlight"
+        app:met_iconLeft="@drawable/title"
+        app:met_iconPadding="12dp"
+        app:met_primaryColor="#259b24" />
+
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/data_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/data_title"
+        android:hint="用户名"
+        app:met_minBottomTextLines="0"
+        app:met_clearButton="true"
+        app:met_floatingLabel="highlight"
+        app:met_helperText="账号都忘了还要密码有什么用.."
+        app:met_iconLeft="@drawable/user"
+        app:met_iconPadding="12dp"
+        app:met_primaryColor="#259b24" />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/data_key"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/data_user"
+        app:met_minBottomTextLines="0"
+        android:hint="密码"
+        app:met_clearButton="true"
+        app:met_floatingLabel="highlight"
+        app:met_helperText="密码都忘了还要账号有什么用.."
+        app:met_iconLeft="@drawable/password"
+        app:met_iconPadding="12dp"
+        app:met_primaryColor="#259b24" />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/data_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_cheek"
+        android:layout_centerHorizontal="true"
+        android:editable="true"
+        android:padding="5dp"
+        android:gravity="top"
+        android:inputType="textMultiLine"
+        android:maxLines="10"
+        android:minLines="8"
+        android:scrollbars="vertical"
+        android:layout_below="@id/data_key"
+        android:layout_marginTop="8dp"
+        android:hint="不想说的什么吗"
+        />
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/data_save"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/savedata_button"
+        android:text="保存数据"
+        android:layout_below="@id/data_desc"
+        android:textSize="20sp"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true" />
+
+
+</RelativeLayout>
