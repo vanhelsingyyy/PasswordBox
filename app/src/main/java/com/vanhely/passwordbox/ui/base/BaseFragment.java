@@ -27,10 +27,13 @@ public abstract class BaseFragment extends Fragment {
             }
         }
 
+        initViewId();
+        initListener();
         return view;
     }
 
-
+    public abstract void initViewId();
+    public abstract void initListener();
 
 
 

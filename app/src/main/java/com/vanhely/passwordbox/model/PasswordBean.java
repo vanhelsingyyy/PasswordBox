@@ -84,20 +84,6 @@ public class PasswordBean extends DataSupport implements Parcelable {
     }
 
     @Override
-    public String toString() {
-        return "PasswordBean{" +
-                "id=" + id +
-                ", type='" + type + '\'' +
-                ", title='" + title + '\'' +
-                ", desc='" + desc + '\'' +
-                ", image='" + image + '\'' +
-                ", password='" + password + '\'' +
-                ", username='" + username + '\'' +
-                ", saveTime='" + saveTime + '\'' +
-                '}';
-    }
-
-    @Override
     public int describeContents() {
         return 0;
     }
@@ -137,4 +123,18 @@ public class PasswordBean extends DataSupport implements Parcelable {
             return new PasswordBean[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "PasswordBean{" +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                ", title='" + title + '\'' +
+                ", desc='" + desc + '\'' +
+                ", image='" + image + '\'' +
+                ", password='" + password + '\'' +
+                ", username='" + username + '\'' +
+                ", saveTime='" + saveTime + '\'' +
+                '}';
+    }
 }

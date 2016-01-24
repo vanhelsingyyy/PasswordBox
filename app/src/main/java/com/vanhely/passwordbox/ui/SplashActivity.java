@@ -1,8 +1,9 @@
 package com.vanhely.passwordbox.ui;
 
 import android.content.Intent;
+import android.support.v7.widget.AppCompatButton;
+import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import com.vanhely.passwordbox.R;
 import com.vanhely.passwordbox.config.Config;
@@ -19,7 +20,8 @@ import java.util.Date;
 public class SplashActivity extends BaseActivity implements View.OnClickListener {
 
 
-    private String time;
+    private static final String TAG = "SplashActivity";
+    public static String time;
 
     @Override
     public int initContentView() {
@@ -31,30 +33,51 @@ public class SplashActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void initViewId() {
-        TextView skip = (TextView) findViewById(R.id.skip);
+        AppCompatButton skip = (AppCompatButton) findViewById(R.id.skip);
         skip.setOnClickListener(this);
-
     }
 
     @Override
     public void initData() {
         boolean splashStaus = sp.getBoolean(Config.splashStaus, true);
+        boolean protectState = sp.getBoolean(Config.protectState, false);
+        boolean needProtect = sp.getBoolean(Config.needProtect, true);
+        Log.i(TAG, protectState + "");
+
         if (splashStaus) {
-            Date date = new Date();
-            time = String.format("%tF", date) + " " + String.format("%tT", date);
-            Connector.getDatabase();
-            saveGameData();
-            saveToolData();
-            saveSocialData();
+            setDataBase();
 
 
         } else {
-            Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-            startActivity(intent);
-            finish();
+            if (protectState) {
+                if (needProtect) {
+                    Intent intent = new Intent(SplashActivity.this, PasswordProtectActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
+            } else {
+                Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
         }
 
 
+    }
+
+    public static void setDataBase() {
+        Date date = new Date();
+        time = String.format("%tF", date) + " " + String.format("%tT", date);
+        Connector.getDatabase();
+        saveGameData();
+        saveToolData();
+        saveSocialData();
     }
 
 
@@ -64,7 +87,7 @@ public class SplashActivity extends BaseActivity implements View.OnClickListener
     }
 
 
-    private void saveGameData() {
+    private static void saveGameData() {
 
         for (int i = 0; i < Config.gameCount; i++) {
 
@@ -81,7 +104,7 @@ public class SplashActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    private void saveToolData() {
+    private static void saveToolData() {
 
         for (int i = 0; i < Config.toolCount; i++) {
             PasswordBean passwordBean = new PasswordBean();
@@ -97,7 +120,7 @@ public class SplashActivity extends BaseActivity implements View.OnClickListener
 
     }
 
-    private void saveSocialData() {
+    private static void saveSocialData() {
 
         for (int i = 0; i < Config.socialCount; i++) {
             PasswordBean passwordBean = new PasswordBean();
@@ -119,6 +142,7 @@ public class SplashActivity extends BaseActivity implements View.OnClickListener
                 Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
                 startActivity(intent);
                 finish();
+                break;
         }
     }
 }

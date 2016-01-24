@@ -1,27 +1,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <item
-        android:id="@+id/action_search"
+        android:icon="@drawable/ic_share_white_24dp"
+        android:id="@+id/action_share"
         android:orderInCategory="80"
-        android:title="@string/action_search"
-        android:icon="@drawable/abc_ic_search"
-        app:showAsAction="ifRoom" />
+        android:title="@string/action_share"
+        app:actionViewClass="android.support.v7.widget.ShareView"
+        app:showAsAction="ifRoom"
+        />
     <item
-        android:id="@+id/action_backups"
-        android:icon="@drawable/app_fab_upload"
-        android:orderInCategory="90"
-        android:title="@string/action_backups"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_down"
-        android:icon="@drawable/ic_action_cache"
-        android:orderInCategory="100"
-        android:title="@string/action_down"
-        app:showAsAction="ifRoom" />
-    <item
+        android:icon="@drawable/ic_settings_white_24dp"
         android:id="@+id/action_setting"
-        android:orderInCategory="110"
+        android:orderInCategory="90"
         android:title="@string/action_settings"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 </menu>

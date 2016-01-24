@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_home"
+            android:checked="true"
+            android:icon="@drawable/ic_home_white_24dp"
+            android:title="@string/menu_home" />
+        <item
+            android:id="@+id/menu_setting"
+            android:icon="@drawable/ic_settings_white_24dp"
+            android:title="@string/menu_setting" />
+        <item
+            android:id="@+id/menu_share"
+            android:icon="@drawable/ic_share_white_24dp"
+            android:title="@string/menu_share"
+            />
+
+        <item
+            android:id="@+id/menu_message"
+            android:icon="@drawable/ic_message_white_24dp"
+            android:title="@string/menu_message"/>
+
+        <item
+            android:icon="@drawable/ic_info_outline_white_24dp"
+            android:id="@+id/menu_information"
+            android:title="@string/information"/>
+    </group>
+</menu>

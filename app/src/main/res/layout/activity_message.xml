@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize" />
+
+    <TextView
+        android:id="@+id/message_text"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:text="希望密码盒子有哪些改进呢?"
+        android:textSize="21sp" />
+
+    <TextView
+        android:id="@+id/message_text2"
+        android:layout_below="@id/message_text"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:text="你可以通过邮箱联系我"
+        android:textSize="21sp" />
+
+    <TextView
+        android:id="@+id/message_text3"
+        android:layout_below="@id/message_text2"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="vanhelyy@gmail.com"
+        android:textSize="21sp" />
+</RelativeLayout>

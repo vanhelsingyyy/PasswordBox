@@ -39,6 +39,8 @@ public class ContentAdapter extends RecyclerView.Adapter {
 
     public interface OnItemClickListener {
         void onItemClick(View v, int position);
+
+        void onitemLongClick(View v, int posotion);
     }
 
     @Override
@@ -57,21 +59,29 @@ public class ContentAdapter extends RecyclerView.Adapter {
 
             viewHolder.icon.setImageResource(imageRes[position]);
         } else {
-            viewHolder.icon.setImageResource(R.drawable.def);
+            viewHolder.icon.setImageResource(R.mipmap.ic_launcher);
         }
         viewHolder.title.setText(passwordBean.getTitle());
         viewHolder.desc.setText(passwordBean.getDesc());
         viewHolder.time.setText(passwordBean.getSaveTime());
 
-       if (onItemClickListener != null) {
-           viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   int pos = viewHolder.getLayoutPosition();
-                   onItemClickListener.onItemClick(viewHolder.itemView,pos);
-               }
-           });
-       }
+        if (onItemClickListener != null) {
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = viewHolder.getLayoutPosition();
+                    onItemClickListener.onItemClick(viewHolder.itemView, pos);
+                }
+            });
+            viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    int pos = viewHolder.getLayoutPosition();
+                    onItemClickListener.onitemLongClick(viewHolder.itemView, pos);
+                    return true;
+                }
+            });
+        }
     }
 
     @Override

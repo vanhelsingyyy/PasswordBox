@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:text="@string/about_desc"
+        android:textColor="#009688" />
+
+    <LinearLayout
+        android:background="#EEEEEE"
+        android:id="@+id/ll_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true" >
+
+        <TextView
+            android:id="@+id/tv_version"
+            style="@style/AboutTextStyle" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:text="@string/about_desc2"
+        android:textColor="#009688" />
+
+    <LinearLayout
+        android:background="#EEEEEE"
+        android:id="@+id/ll_litePal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/AboutTextStyle"
+            android:text="@string/litepal" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:background="#EEEEEE"
+        android:id="@+id/ll_materEdite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        >
+
+        <TextView
+            style="@style/AboutTextStyle"
+            android:text="@string/material_edittext" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="#EEEEEE"
+        android:id="@+id/ll_eventBus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/about_linear_margin"
+        android:clickable="true"
+        >
+
+        <TextView
+            style="@style/AboutTextStyle"
+            android:text="@string/event_bus" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:background="@drawable/pb_icon" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="@string/app_desc"
+
+        android:textColor="#009688"
+        android:textSize="18sp" />
+</LinearLayout>

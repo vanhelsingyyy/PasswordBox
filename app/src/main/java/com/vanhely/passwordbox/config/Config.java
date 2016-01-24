@@ -14,6 +14,11 @@ public class Config {
     public static String spFileName = resources.getString(R.string.sp_filename);
     public static String splashStaus = "splashStaus";
     public static String desc = resources.getString(R.string.desc);
+    public static String protectState = "protectState";
+    public static String firstProtect = "firstProtect";
+    public static String protectPassword = "protectPassword";
+    public static String needProtect = "needProtect";
+    public static String extra_text = resources.getString(R.string.app_desc);
     public static int[] gameImages = {  R.drawable.game_steam, R.drawable.game_psn, R.drawable.game_xbox,
                                         R.drawable.game_battlenet, R.drawable.game_battlenet, R.drawable.game_tencentgame,
                                         R.drawable.game_neteasegame, R.drawable.game_dota, R.drawable.game_jw3,

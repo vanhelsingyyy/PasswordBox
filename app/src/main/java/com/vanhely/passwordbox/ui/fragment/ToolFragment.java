@@ -1,13 +1,18 @@
 package com.vanhely.passwordbox.ui.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.vanhely.passwordbox.R;
@@ -26,12 +31,15 @@ import de.greenrobot.event.EventBus;
 
 /**
  * Created by Administrator on 2016/1/12 0012.
- *
  */
 public class ToolFragment extends BaseFragment implements View.OnClickListener {
     private ContentAdapter adapter;
-    private RecyclerView recyclerView;
     private List<PasswordBean> tools;
+    private View view;
+    private int longPosotion;
+    private PopupWindow popupWindow;
+    private FloatingActionButton fab;
+    private RecyclerView recyclerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,31 +49,52 @@ public class ToolFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     public View creatView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_layout, container, false);
+        view = inflater.inflate(R.layout.fragment_layout, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recylerview);
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.attachToRecyclerView(recyclerView);
-        fab.setOnClickListener(this);
-        setAdapterandNotify();
-        adapter.setOnItemClickListener(new ContentAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View v, int position) {
-                Intent intent = new Intent(BoxAppliction.getmContext(), PaddingDataActivity.class);
-                PasswordBean passwordBean = tools.get(position);
-                intent.putExtra("password", passwordBean);
-                intent.putExtra("type", "tools");
-                startActivity(intent);
-            }
-        });
         return view;
     }
 
-    public void onEventMainThread(String str) {
-            Log.i("123", "tools");
-        if (str.equals("tools")) {
-            setAdapterandNotify();
-        }
+
+    @Override
+    public void initViewId() {
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.attachToRecyclerView(recyclerView);
+        fab.setOnClickListener(this);
+        setAdapterandNotify();
     }
+
+    @Override
+    public void initListener() {
+        adapter.setOnItemClickListener(new ContentAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                startPaddingData(position);
+            }
+
+            @Override
+            public void onitemLongClick(View v, int posotion) {
+                showPopupWindow(v, posotion);
+            }
+        });
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (popupWindow != null) {
+                    popupWindow.dismiss();
+                    popupWindow = null;
+                }
+            }
+        });
+    }
+
 
     @Override
     public void onDestroy() {
@@ -73,6 +102,22 @@ public class ToolFragment extends BaseFragment implements View.OnClickListener {
         EventBus.getDefault().unregister(this);
     }
 
+    public void onEventMainThread(String str) {
+        if (str.equals("tool")) {
+            setAdapterandNotify();
+        } else if (str.equals("resetContent")) {
+            setAdapterandNotify();
+        }
+    }
+
+
+    private void startPaddingData(int position) {
+        Intent intent = new Intent(BoxAppliction.getmContext(), PaddingDataActivity.class);
+        PasswordBean passwordBean = tools.get(position);
+        intent.putExtra("password", passwordBean);
+        intent.putExtra("type", "tool");
+        startActivity(intent);
+    }
 
     private void setAdapterandNotify() {
         tools = DataSupport.where("type = ?", "tool").find(PasswordBean.class);
@@ -86,10 +131,53 @@ public class ToolFragment extends BaseFragment implements View.OnClickListener {
         }
     }
 
+    private void showPopupWindow(View v, int posotion) {
+        View popView = LayoutInflater.from(BoxAppliction.getmContext()).inflate(R.layout.pop_window, null);
+        LinearLayout popEdit = (LinearLayout) popView.findViewById(R.id.pop_edit);
+        LinearLayout popClear = (LinearLayout) popView.findViewById(R.id.pop_clear);
+        longPosotion = posotion;
+        popEdit.setOnClickListener(this);
+        popClear.setOnClickListener(this);
+
+        if (popupWindow != null) {
+            popupWindow.dismiss();
+            popupWindow = null;
+        }
+        popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        int[] location = new int[2];
+        v.getLocationInWindow(location);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popupWindow.showAtLocation(view, Gravity.RIGHT + Gravity.TOP, 80, location[1]);
+
+    }
+
+    private void clearItem(int position) {
+        PasswordBean passwordBean = tools.get(position);
+        String image = passwordBean.getImage();
+        if ("1".equals(image)) {
+            Toast.makeText(BoxAppliction.getmContext(), "请不要删除初始Item哦!", Toast.LENGTH_SHORT).show();
+        }else {
+            DataSupport.deleteAll(PasswordBean.class, "title = ? and saveTime = ?", passwordBean.getTitle(), passwordBean.getSaveTime());
+            setAdapterandNotify();
+        }
+
+    }
+
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(BoxAppliction.getmContext(), PaddingDataActivity.class);
-        intent.putExtra("type", "tools");
-        startActivity(intent);
+        switch (v.getId()) {
+            case R.id.fab:
+                Intent intent = new Intent(BoxAppliction.getmContext(), PaddingDataActivity.class);
+                intent.putExtra("type", "tool");
+                startActivity(intent);
+                break;
+            case R.id.pop_edit:
+                startPaddingData(longPosotion);
+                break;
+            case R.id.pop_clear:
+                clearItem(longPosotion);
+                break;
+        }
+
     }
 }

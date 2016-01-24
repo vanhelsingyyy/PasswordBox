@@ -5,36 +5,61 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar"
+
+    <include
+        layout="@layout/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"/>
+        android:layout_height="?attr/actionBarSize" />
 
-
-    <com.vanhely.passwordbox.widget.PagerSlidingTabStrip
-        android:id="@+id/tabs"
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawerlayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.3"
-        android:background="?attr/colorPrimary"
-        app:pstsDividerColor="@android:color/transparent"
-        app:pstsIndicatorColor="?attr/colorAccent"
-        app:pstsIndicatorHeight="6dp"
-        app:pstsShouldExpand="true"
-        app:pstsTabBackground="@drawable/background_tab"
-        app:pstsUnderlineHeight="6dp"
-        app:setTabTextSize = "20sp"
-        app:setSelectedTabTextSize = "20sp"
-        app:setTabTextColor = "#E0E0E0"
-        app:setSelectedTabTextColor="#FFFFFF" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/centent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.vanhely.passwordbox.widget.PagerSlidingTabStrip
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.3"
+                android:background="?attr/colorPrimary"
+                app:pstsDividerColor="@android:color/transparent"
+                app:pstsIndicatorColor="?attr/colorAccent"
+                app:pstsIndicatorHeight="6dp"
+                app:pstsShouldExpand="true"
+                app:pstsTabBackground="@drawable/background_tab"
+                app:pstsUnderlineHeight="6dp"
+                app:setSelectedTabTextColor="#FFFFFF"
+                app:setSelectedTabTextSize="20sp"
+                app:setTabTextColor="#E0E0E0"
+                app:setTabTextSize="20sp" />
 
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8">
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="8">
 
-    </android.support.v4.view.ViewPager>
+            </android.support.v4.view.ViewPager>
+        </LinearLayout>
+
+        <android.support.design.widget.NavigationView
+            android:id="@+id/navigation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/navigation_header"
+            app:menu="@menu/menu_navigation">
+
+        </android.support.design.widget.NavigationView>
+    </android.support.v4.widget.DrawerLayout>
 
 
 </LinearLayout>

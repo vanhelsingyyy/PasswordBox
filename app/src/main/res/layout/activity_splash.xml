@@ -4,12 +4,28 @@
     android:layout_height="match_parent"
     android:background="@drawable/splash">
 
+    <ImageView
+        android:layout_width="@dimen/eye_width"
+        android:layout_height="wrap_content"
+        android:background="@drawable/iconfont_passwordoff"
+        android:layout_above="@+id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/image_bottom_margin" />
+    <ImageView
+        android:layout_width="@dimen/hide_width"
+        android:layout_height="wrap_content"
+        android:background="@drawable/iconfont_hidepassword"
+        android:layout_above="@+id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/imageView" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:id="@+id/linearLayout">
 
         <TextView
             android:layout_width="wrap_content"
@@ -30,6 +46,8 @@
     </LinearLayout>
 
     <android.support.v7.widget.AppCompatButton
+        android:layout_centerInParent="true"
+        android:id="@+id/skip"
         android:layout_width="148dp"
         android:layout_height="32dp"
         android:layout_alignParentBottom="true"
@@ -38,35 +56,11 @@
         android:layout_marginStart="20dp"
         android:background="@drawable/button"
         android:gravity="center"
-        android:text="@string/singup"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp" />
-
-    <android.support.v7.widget.AppCompatButton
-        android:layout_width="148dp"
-        android:layout_height="32dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="115dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/button"
-        android:gravity="center"
-        android:text="@string/login"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/skip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="65dp"
-        android:clickable="true"
         android:text="@string/skip"
         android:textColor="#FFFFFF"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
+
+
+
 
 </RelativeLayout>

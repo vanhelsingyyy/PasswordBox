@@ -1,12 +1,18 @@
 package com.vanhely.passwordbox.ui.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.vanhely.passwordbox.R;
@@ -30,8 +36,11 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = "GameFragment";
     private ContentAdapter adapter;
-    private RecyclerView recyclerView;
     private List<PasswordBean> games;
+    private PopupWindow popupWindow;
+    private View view;
+    private int longPosotion;
+    private RecyclerView recyclerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,26 +48,54 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
         EventBus.getDefault().register(this);
     }
 
+
     @Override
     public View creatView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_layout, container, false);
+        view = inflater.inflate(R.layout.fragment_layout, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recylerview);
+        return view;
+    }
+
+
+    @Override
+    public void initViewId() {
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.attachToRecyclerView(recyclerView);
         fab.setOnClickListener(this);
         setAdapterandNotify();
+    }
+
+    @Override
+    public void initListener() {
         adapter.setOnItemClickListener(new ContentAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
-                Intent intent = new Intent(BoxAppliction.getmContext(), PaddingDataActivity.class);
-                PasswordBean passwordBean = games.get(position);
-                intent.putExtra("password", passwordBean);
-                intent.putExtra("type", "game");
-                startActivity(intent);
+                startPaddingData(position);
+            }
+
+            @Override
+            public void onitemLongClick(View v, int posotion) {
+                showPopupWindow(v, posotion);
             }
         });
-        return view;
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (popupWindow != null) {
+                    popupWindow.dismiss();
+                    popupWindow = null;
+                }
+            }
+        });
+
     }
 
 
@@ -69,9 +106,51 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
     }
 
 
+    private void startPaddingData(int position) {
+        Intent intent = new Intent(BoxAppliction.getmContext(), PaddingDataActivity.class);
+        PasswordBean passwordBean = games.get(position);
+        intent.putExtra("password", passwordBean);
+        intent.putExtra("type", "game");
+        startActivity(intent);
+    }
+
+    private void showPopupWindow(View v, int posotion) {
+        View popView = LayoutInflater.from(BoxAppliction.getmContext()).inflate(R.layout.pop_window, null);
+        LinearLayout popEdit = (LinearLayout) popView.findViewById(R.id.pop_edit);
+        LinearLayout popClear = (LinearLayout) popView.findViewById(R.id.pop_clear);
+        longPosotion = posotion;
+        popEdit.setOnClickListener(this);
+        popClear.setOnClickListener(this);
+
+        if (popupWindow != null) {
+            popupWindow.dismiss();
+            popupWindow = null;
+        }
+        popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        int[] location = new int[2];
+        v.getLocationInWindow(location);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popupWindow.showAtLocation(view, Gravity.RIGHT + Gravity.TOP, 80, location[1]);
+
+    }
+
+    private void clearItem(int position) {
+        PasswordBean passwordBean = games.get(position);
+        String image = passwordBean.getImage();
+        if ("1".equals(image)) {
+            Toast.makeText(BoxAppliction.getmContext(),"请不要删除初始条目哦!",Toast.LENGTH_SHORT).show();
+        }else {
+            DataSupport.deleteAll(PasswordBean.class, "title = ? and saveTime = ?", passwordBean.getTitle(), passwordBean.getSaveTime());
+            setAdapterandNotify();
+        }
+
+    }
+
     public void onEventMainThread(String str) {
 
         if (str.equals("game")) {
+            setAdapterandNotify();
+        } else if (str.equals("resetContent")) {
             setAdapterandNotify();
         }
     }
@@ -91,9 +170,19 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(BoxAppliction.getmContext(), PaddingDataActivity.class);
-        intent.putExtra("type", "game");
-        startActivity(intent);
-
+        switch (v.getId()) {
+            case R.id.fab:
+                Intent intent = new Intent(BoxAppliction.getmContext(), PaddingDataActivity.class);
+                intent.putExtra("type", "game");
+                startActivity(intent);
+                break;
+            case R.id.pop_edit:
+                startPaddingData(longPosotion);
+                break;
+            case R.id.pop_clear:
+                clearItem(longPosotion);
+                break;
+        }
     }
+
 }
