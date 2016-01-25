@@ -66,20 +66,22 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
                 startActivity(intent);
                 break;
             case R.id.ll_litePal:
-                startWebview("https://github.com/LitePalFramework/LitePal");
+                startBrowser("https://github.com/LitePalFramework/LitePal");
                 break;
             case R.id.ll_eventBus:
-                startWebview("https://github.com/greenrobot/EventBus");
+                startBrowser("https://github.com/greenrobot/EventBus");
                 break;
             case R.id.ll_materEdite:
-                startWebview("https://github.com/rengwuxian/MaterialEditText");
+                startBrowser("https://github.com/rengwuxian/MaterialEditText");
                 break;
         }
     }
 
-    private void startWebview(String loadUrl) {
-        Intent intent = new Intent(AboutActivity.this, GitHubActivity.class);
-        intent.putExtra("loadUrl",loadUrl);
+    private void startBrowser(String loadUrl) {
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.VIEW");
+        Uri url = Uri.parse(loadUrl);
+        intent.setData(url);
         startActivity(intent);
 
     }
