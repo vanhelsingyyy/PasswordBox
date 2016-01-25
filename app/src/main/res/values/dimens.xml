@@ -1,17 +1,5 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="header_height">180dp</dimen>
-    <dimen name="margin_large">6dp</dimen>
-    <dimen name="item_height_margin">50dp</dimen>
-    <dimen name="hide_width">180dp</dimen>
-    <dimen name="eye_width">160dp</dimen>
-    <dimen name="image_bottom_margin">60dp</dimen>
-    <dimen name="about_linear_margin">10dp</dimen>
-    <dimen name="progressbar_webview_height">4dp</dimen>
-    <dimen name="cardview_height">60dp</dimen>
 
 
     <dimen name="basic1dp">1.00dp</dimen>

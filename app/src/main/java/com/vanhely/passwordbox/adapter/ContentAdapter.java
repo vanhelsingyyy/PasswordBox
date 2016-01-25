@@ -59,7 +59,7 @@ public class ContentAdapter extends RecyclerView.Adapter {
 
             viewHolder.icon.setImageResource(imageRes[position]);
         } else {
-            viewHolder.icon.setImageResource(R.mipmap.ic_launcher);
+            viewHolder.icon.setImageResource(R.drawable.ic_launcher);
         }
         viewHolder.title.setText(passwordBean.getTitle());
         viewHolder.desc.setText(passwordBean.getDesc());

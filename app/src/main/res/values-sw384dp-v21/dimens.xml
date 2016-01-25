@@ -501,7 +501,7 @@
     <dimen name="basic499dp">532.27dp</dimen>
     <dimen name="card_margin">5.33dp</dimen>
     <dimen name="card_margin_top">10.67dp</dimen>
-
+    <dimen name="card_elevation">8dp</dimen>
 
     <dimen name="basic1sp">1.07sp</dimen>
     <dimen name="basic2sp">2.13sp</dimen>

@@ -11,8 +11,8 @@
     android:layout_marginTop="@dimen/card_margin_top"
     android:clickable="true"
     card_view:cardBackgroundColor="@color/cardview_light_background"
-    card_view:cardCornerRadius="@dimen/basic15dp"
-    card_view:cardElevation="@dimen/basic16dp">
+    card_view:cardCornerRadius="@dimen/basic13dp"
+    card_view:cardElevation="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
