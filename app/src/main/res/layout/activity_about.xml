@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
     android:orientation="vertical">
 
     <include
@@ -19,7 +18,7 @@
         android:textColor="#009688" />
 
     <LinearLayout
-        android:background="#EEEEEE"
+        android:background="#FFFFFF"
         android:id="@+id/ll_version"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,7 +37,7 @@
         android:textColor="#009688" />
 
     <LinearLayout
-        android:background="#EEEEEE"
+        android:background="#FFFFFF"
         android:id="@+id/ll_litePal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -53,7 +52,7 @@
 
     <LinearLayout
         android:layout_marginTop="10dp"
-        android:background="#EEEEEE"
+        android:background="#FFFFFF"
         android:id="@+id/ll_materEdite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -67,7 +66,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:background="#EEEEEE"
+        android:background="#FFFFFF"
         android:id="@+id/ll_eventBus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -85,7 +84,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/basic16dp"
-        android:background="@drawable/pb_icon" />
+        android:background="@drawable/ic_launcher" />
 
     <TextView
         android:layout_width="wrap_content"

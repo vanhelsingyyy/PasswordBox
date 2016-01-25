@@ -18,7 +18,7 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="@dimen/basic16dp"
         android:src="@drawable/ic_add_white_24dp"
-        android:background="#e51c23"
+        android:backgroundTint="#e51c23"
         app:fab_shadow="true"
         app:fab_type="normal" />
 
