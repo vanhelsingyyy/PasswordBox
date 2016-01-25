@@ -15,9 +15,9 @@
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="@dimen/basic12dp"
         android:text="希望密码盒子有哪些改进呢?"
-        android:textSize="21sp" />
+        android:textSize="@dimen/basic19sp" />
 
     <TextView
         android:id="@+id/message_text2"
@@ -25,9 +25,9 @@
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="@dimen/basic12dp"
         android:text="你可以通过邮箱联系我"
-        android:textSize="21sp" />
+        android:textSize="@dimen/basic19sp" />
 
     <TextView
         android:id="@+id/message_text3"
@@ -36,5 +36,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="vanhelyy@gmail.com"
-        android:textSize="21sp" />
+        android:textSize="@dimen/basic19sp" />
 </RelativeLayout>

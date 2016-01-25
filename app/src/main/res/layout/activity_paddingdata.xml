@@ -12,13 +12,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="@dimen/basic76dp"
         android:hint="标题"
         android:imeOptions="actionNext"
         app:met_clearButton="true"
         app:met_floatingLabel="highlight"
         app:met_iconLeft="@drawable/title"
-        app:met_iconPadding="12dp"
+        app:met_iconPadding="@dimen/basic12dp"
         app:met_primaryColor="#259b24" />
 
 
@@ -35,7 +35,7 @@
         app:met_floatingLabel="highlight"
         app:met_helperText="账号都忘了还要密码有什么用.."
         app:met_iconLeft="@drawable/user"
-        app:met_iconPadding="12dp"
+        app:met_iconPadding="@dimen/basic12dp"
         app:met_minBottomTextLines="0"
         app:met_primaryColor="#259b24" />
 
@@ -52,7 +52,7 @@
         app:met_floatingLabel="highlight"
         app:met_helperText="密码都忘了还要账号有什么用.."
         app:met_iconLeft="@drawable/password"
-        app:met_iconPadding="12dp"
+        app:met_iconPadding="@dimen/basic12dp"
         app:met_minBottomTextLines="0"
         app:met_primaryColor="#259b24" />
 
@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/data_key"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/basic8dp"
         android:background="@drawable/edit_cheek"
         android:editable="true"
         android:gravity="top"
@@ -71,16 +71,16 @@
         android:inputType="textMultiLine"
         android:maxLines="10"
         android:minLines="8"
-        android:padding="5dp"
+        android:padding="@dimen/basic5dp"
         android:scrollbars="vertical" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/data_save"
-        android:layout_width="280dp"
+        android:layout_width="@dimen/basic280dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/data_desc"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/basic20dp"
         android:background="@drawable/savedata_button"
         android:text="保存数据"
         android:textColor="#FFFFFF"

@@ -14,7 +14,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="15dp"
+        android:padding="@dimen/basic15dp"
         android:text="@string/about_desc"
         android:textColor="#009688" />
 
@@ -33,7 +33,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="15dp"
+        android:padding="@dimen/basic15dp"
         android:text="@string/about_desc2"
         android:textColor="#009688" />
 
@@ -71,7 +71,7 @@
         android:id="@+id/ll_eventBus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/about_linear_margin"
+        android:layout_marginTop="@dimen/basic10dp"
         android:clickable="true"
         >
 
@@ -84,16 +84,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/basic16dp"
         android:background="@drawable/pb_icon" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/basic15dp"
         android:text="@string/app_desc"
-
         android:textColor="#009688"
-        android:textSize="18sp" />
+        android:textSize="@dimen/basic16sp" />
 </LinearLayout>

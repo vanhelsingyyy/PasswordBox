@@ -14,7 +14,7 @@
         android:max="100"
         android:progressDrawable="@drawable/progressbar_color"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/progressbar_webview_height" />
+        android:layout_height="@dimen/basic4dp" />
     
     <WebView
         android:id="@+id/webview"

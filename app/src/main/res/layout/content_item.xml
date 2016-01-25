@@ -3,16 +3,16 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/cardview_height"
-    android:layout_marginEnd="@dimen/margin_large"
-    android:layout_marginLeft="@dimen/margin_large"
-    android:layout_marginRight="@dimen/margin_large"
-    android:layout_marginStart="@dimen/margin_large"
-    android:layout_marginTop="10dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/card_margin"
+    android:layout_marginLeft="@dimen/card_margin"
+    android:layout_marginRight="@dimen/card_margin"
+    android:layout_marginStart="@dimen/card_margin"
+    android:layout_marginTop="@dimen/card_margin_top"
     android:clickable="true"
     card_view:cardBackgroundColor="@color/cardview_light_background"
-    card_view:cardCornerRadius="15dp"
-    card_view:cardElevation="20dp">
+    card_view:cardCornerRadius="@dimen/basic15dp"
+    card_view:cardElevation="@dimen/basic16dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,10 +20,10 @@
 
         <ImageView
             android:id="@+id/content_icon"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/margin_large"
-            android:layout_marginStart="@dimen/margin_large"
+            android:layout_width="@dimen/basic50dp"
+            android:layout_height="@dimen/basic50dp"
+            android:layout_marginLeft="@dimen/basic5dp"
+            android:layout_marginStart="@dimen/basic5dp"
             android:scaleType="centerCrop" />
 
         <TextView
@@ -31,24 +31,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginTop="@dimen/basic5dp"
             android:text="name"
             android:textColor="#000000"
-            android:textSize="18sp" />
+            android:textSize="@dimen/basic16sp" />
 
         <TextView
             android:id="@+id/content_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/content_title"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginLeft="@dimen/basic9dp"
+            android:layout_marginStart="@dimen/basic9dp"
             android:layout_toEndOf="@id/content_icon"
             android:layout_toRightOf="@id/content_icon"
             android:singleLine="true"
             android:text="desc"
             android:textColor="#9E9E9E"
-            android:textSize="13sp" />
+            android:textSize="@dimen/basic11sp" />
 
         <TextView
             android:id="@+id/content_time"
@@ -57,10 +57,10 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@id/content_title"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginEnd="@dimen/basic7dp"
+            android:layout_marginRight="@dimen/basic7dp"
             android:text="time"
             android:textColor="#9E9E9E"
-            android:textSize="12sp" />
+            android:textSize="@dimen/basic9sp" />
     </RelativeLayout>
 </android.support.v7.widget.CardView>

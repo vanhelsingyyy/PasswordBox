@@ -6,7 +6,7 @@
     android:orientation="vertical" >
     <TextView android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:textSize="16sp"
+        android:textSize="@dimen/basic16sp"
         android:textColor="#fff"
         android:id="@+id/number_info"
         android:gravity="center"/>

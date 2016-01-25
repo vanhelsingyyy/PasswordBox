@@ -30,14 +30,14 @@
                 android:background="?attr/colorPrimary"
                 app:pstsDividerColor="@android:color/transparent"
                 app:pstsIndicatorColor="?attr/colorAccent"
-                app:pstsIndicatorHeight="6dp"
+                app:pstsIndicatorHeight="@dimen/basic5dp"
                 app:pstsShouldExpand="true"
                 app:pstsTabBackground="@drawable/background_tab"
-                app:pstsUnderlineHeight="6dp"
+                app:pstsUnderlineHeight="@dimen/basic5dp"
                 app:setSelectedTabTextColor="#FFFFFF"
-                app:setSelectedTabTextSize="20sp"
+                app:setSelectedTabTextSize="@dimen/basic17sp"
                 app:setTabTextColor="#E0E0E0"
-                app:setTabTextSize="20sp" />
+                app:setTabTextSize="@dimen/basic17sp" />
 
 
             <android.support.v4.view.ViewPager
