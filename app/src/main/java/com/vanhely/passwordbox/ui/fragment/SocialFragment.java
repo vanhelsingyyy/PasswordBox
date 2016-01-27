@@ -1,9 +1,15 @@
 package com.vanhely.passwordbox.ui.fragment;
 
+import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -12,19 +18,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.vanhely.passwordbox.R;
 import com.vanhely.passwordbox.adapter.ContentAdapter;
 import com.vanhely.passwordbox.config.BoxAppliction;
-import com.vanhely.passwordbox.config.Config;
 import com.vanhely.passwordbox.model.PasswordBean;
 import com.vanhely.passwordbox.ui.PaddingDataActivity;
 import com.vanhely.passwordbox.ui.base.BaseFragment;
 
 import org.litepal.crud.DataSupport;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
@@ -34,6 +42,8 @@ import de.greenrobot.event.EventBus;
  */
 public class SocialFragment extends BaseFragment implements View.OnClickListener {
 
+    private static final int CODE_PHOTO_REQUEST = 1;
+    private static final int CODE_RESULT_REQUEST = 2;
     private ContentAdapter adapter;
     private List<PasswordBean> socials;
     private View view;
@@ -41,6 +51,7 @@ public class SocialFragment extends BaseFragment implements View.OnClickListener
     private PopupWindow popupWindow;
     private FloatingActionButton fab;
     private RecyclerView recyclerView;
+    private FileOutputStream fos;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,12 +63,12 @@ public class SocialFragment extends BaseFragment implements View.OnClickListener
     @Override
     public View creatView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_layout, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recylerview);
         return view;
     }
 
     @Override
     public void initViewId() {
+        recyclerView = (RecyclerView) view.findViewById(R.id.recylerview);
         fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.attachToRecyclerView(recyclerView);
         fab.setOnClickListener(this);
@@ -75,6 +86,12 @@ public class SocialFragment extends BaseFragment implements View.OnClickListener
             @Override
             public void onitemLongClick(View v, int posotion) {
                 showPopupWindow(v, posotion);
+            }
+
+            @Override
+            public void onIconClick(View v, int posotion) {
+                longPosotion = posotion;
+                setIcon();
             }
         });
 
@@ -115,9 +132,11 @@ public class SocialFragment extends BaseFragment implements View.OnClickListener
         View popView = LayoutInflater.from(BoxAppliction.getmContext()).inflate(R.layout.pop_window, null);
         LinearLayout popEdit = (LinearLayout) popView.findViewById(R.id.pop_edit);
         LinearLayout popClear = (LinearLayout) popView.findViewById(R.id.pop_clear);
+        LinearLayout popIcon = (LinearLayout) popView.findViewById(R.id.pop_icon);
         longPosotion = posotion;
         popEdit.setOnClickListener(this);
         popClear.setOnClickListener(this);
+        popIcon.setOnClickListener(this);
 
         if (popupWindow != null) {
             popupWindow.dismiss();
@@ -142,20 +161,15 @@ public class SocialFragment extends BaseFragment implements View.OnClickListener
 
     private void clearItem(int position) {
         PasswordBean passwordBean = socials.get(position);
-        String image = passwordBean.getImage();
-        if ("1".equals(image)) {
-            Toast.makeText(BoxAppliction.getmContext(), "请不要删除初始Item哦!", Toast.LENGTH_SHORT).show();
-        } else {
-            DataSupport.deleteAll(PasswordBean.class, "title = ? and saveTime = ?", passwordBean.getTitle(), passwordBean.getSaveTime());
-            setAdapterandNotify();
-        }
+        DataSupport.deleteAll(PasswordBean.class, "title = ? and saveTime = ?", passwordBean.getTitle(), passwordBean.getSaveTime());
+        setAdapterandNotify();
 
     }
 
     private void setAdapterandNotify() {
         socials = DataSupport.where("type = ?", "social").find(PasswordBean.class);
         if (adapter == null) {
-            adapter = new ContentAdapter(socials, Config.socialImages);
+            adapter = new ContentAdapter(socials);
             recyclerView.setLayoutManager(new LinearLayoutManager(BoxAppliction.getmContext()));
             recyclerView.setAdapter(adapter);
         } else {
@@ -175,11 +189,97 @@ public class SocialFragment extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.pop_edit:
                 startPaddingData(longPosotion);
+                popupWindow.dismiss();
                 break;
             case R.id.pop_clear:
                 clearItem(longPosotion);
+                popupWindow.dismiss();
+                break;
+            case R.id.pop_icon:
+                setIcon();
+                popupWindow.dismiss();
                 break;
         }
 
+
+    }
+
+    public void setIcon() {
+        Intent photeIntent = new Intent(Intent.ACTION_PICK, null);
+        photeIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        startActivityForResult(photeIntent, CODE_PHOTO_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == Activity.RESULT_CANCELED) {
+            return;
+        }
+        switch (requestCode) {
+            case CODE_PHOTO_REQUEST:
+                cropPhoto(data.getData());
+                break;
+            case CODE_RESULT_REQUEST:
+                if (data != null) {
+                    savaImagePath(data);
+                }
+        }
+
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void savaImagePath(Intent data) {
+        Bundle extras = data.getExtras();
+        Bitmap icon = extras.getParcelable("data");
+        String storageState = Environment.getExternalStorageState();
+        if (!storageState.equals(Environment.MEDIA_MOUNTED)) {
+            return;
+        }
+        String path = Environment.getExternalStorageDirectory().getAbsoluteFile() + "/PwrodBOX/";
+        File file = new File(path);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        PasswordBean bean = socials.get(longPosotion);
+        String fileName = path + bean.getTitle() + ".jpg";
+        try {
+            fos = new FileOutputStream(fileName);
+            if (icon != null) {
+                icon.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                ContentValues values = new ContentValues();
+                values.put("imagePath", fileName);
+                DataSupport.updateAll(PasswordBean.class, values, "title = ? and saveTime = ?", bean.getTitle(), bean.getSaveTime());
+                setAdapterandNotify();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fos.flush();
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
+
+    private void cropPhoto(Uri uri) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+
+        intent.putExtra("crop", "true");
+        intent.putExtra("scale", true);
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+
+        intent.putExtra("outputX", 150);
+        intent.putExtra("outputY", 150);
+        intent.putExtra("return-data", true);
+
+        startActivityForResult(intent, CODE_RESULT_REQUEST);
     }
 }

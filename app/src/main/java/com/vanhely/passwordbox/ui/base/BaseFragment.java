@@ -39,3 +39,5 @@ public abstract class BaseFragment extends Fragment {
 
     public abstract View creatView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 }
+
+

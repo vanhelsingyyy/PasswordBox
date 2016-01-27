@@ -18,6 +18,7 @@ public class Config {
     public static String firstProtect = "firstProtect";
     public static String protectPassword = "protectPassword";
     public static String needProtect = "needProtect";
+    public static String updata = "updata";
     public static String extra_text = resources.getString(R.string.app_desc);
     public static int[] gameImages = {  R.drawable.game_steam, R.drawable.game_psn, R.drawable.game_xbox,
                                         R.drawable.game_battlenet, R.drawable.game_battlenet, R.drawable.game_tencentgame,

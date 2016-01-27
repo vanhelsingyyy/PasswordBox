@@ -14,6 +14,8 @@ public class PasswordBean extends DataSupport implements Parcelable {
     private String title;
     private String desc;
     private String image;
+    private String imagePath;
+    private int imageId;
     private String password;
     private String username;
     private String saveTime;
@@ -57,6 +59,22 @@ public class PasswordBean extends DataSupport implements Parcelable {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public int getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(int imageId) {
+        this.imageId = imageId;
     }
 
     public String getPassword() {

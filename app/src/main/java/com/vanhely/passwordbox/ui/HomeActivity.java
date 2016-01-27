@@ -72,8 +72,8 @@ public class HomeActivity extends BaseActivity {
     @Override
     public void initData() {
         SharedPreferences.Editor editor = sp.edit();
-        editor.putBoolean(Config.splashStaus, false);
-        editor.apply();
+        editor.putBoolean(Config.splashStaus, false).apply();
+        editor.putBoolean(Config.updata, false).apply();
         boolean firstProtect = sp.getBoolean(Config.firstProtect, true);
         if (firstProtect) {
             Toast.makeText(BoxAppliction.getmContext(),"请在设置中开启密码保护哒!",Toast.LENGTH_LONG).show();

@@ -34,7 +34,8 @@
     <string name="about_desc">应用版本号</string>
     <string name="about_desc2">开源项目感谢</string>
     <string name="event_bus">greenrobot/EventBus</string>
-    <string name="app_desc">一款干净的密码管理应用,请大家放心食用！</string>
+    <string name="app_desc">一款干净的密码管理应用,请大家放心食用！http://pre.im/gXPn</string>
+    <string name="pop_icon">更换图标</string>
     <string-array name="game_names">
         <item>Steam</item>
         <item>PSN</item>

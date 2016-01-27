@@ -1,16 +1,21 @@
 package com.vanhely.passwordbox.adapter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.github.siyamed.shapeimageview.CircularImageView;
 import com.vanhely.passwordbox.R;
 import com.vanhely.passwordbox.config.BoxAppliction;
 import com.vanhely.passwordbox.model.PasswordBean;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -19,14 +24,13 @@ import java.util.List;
 public class ContentAdapter extends RecyclerView.Adapter {
 
 
+//    private int[] imageRes;
     private List<PasswordBean> passwordBeans;
-    private int[] imageRes;
     public OnItemClickListener onItemClickListener;
 
-    public ContentAdapter(List<PasswordBean> passwordBeans, int[] imageRes) {
+    public ContentAdapter(List<PasswordBean> passwordBeans) {
         this.passwordBeans = passwordBeans;
-        this.imageRes = imageRes;
-
+//        this.imageRes = imageRes;
     }
 
     public void updataPasswordList(List<PasswordBean> passwordBeans) {
@@ -41,6 +45,8 @@ public class ContentAdapter extends RecyclerView.Adapter {
         void onItemClick(View v, int position);
 
         void onitemLongClick(View v, int posotion);
+
+        void onIconClick(View v, int posotion);
     }
 
     @Override
@@ -53,14 +59,25 @@ public class ContentAdapter extends RecyclerView.Adapter {
         final ViewHolder viewHolder = (ViewHolder) holder;
 
         PasswordBean passwordBean = passwordBeans.get(position);
-
         String image = passwordBean.getImage();
-        if ("1".equals(image)) {
+        String imagePath = passwordBean.getImagePath();
+        if (TextUtils.isEmpty(imagePath)) {
+            if ("1".equals(image)) {
+                viewHolder.icon.setImageResource(passwordBean.getImageId());
+            } else {
+                viewHolder.icon.setImageResource(R.drawable.ic_launcher);
+            }
+        }else {
+            File file = new File(imagePath);
 
-            viewHolder.icon.setImageResource(imageRes[position]);
-        } else {
-            viewHolder.icon.setImageResource(R.drawable.ic_launcher);
+            if (file.exists()) {
+                Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(imagePath));
+                viewHolder.icon.setImageBitmap(bitmap);
+            }else {
+                Toast.makeText(BoxAppliction.getmContext(),"图片不存在",Toast.LENGTH_SHORT).show();
+            }
         }
+
         viewHolder.title.setText(passwordBean.getTitle());
         viewHolder.desc.setText(passwordBean.getDesc());
         viewHolder.time.setText(passwordBean.getSaveTime());
@@ -81,6 +98,13 @@ public class ContentAdapter extends RecyclerView.Adapter {
                     return true;
                 }
             });
+            viewHolder.icon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = viewHolder.getLayoutPosition();
+                    onItemClickListener.onIconClick(viewHolder.itemView,pos);
+                }
+            });
         }
     }
 
@@ -91,14 +115,14 @@ public class ContentAdapter extends RecyclerView.Adapter {
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView icon;
+        public CircularImageView icon;
         public TextView desc;
         public TextView title;
         public TextView time;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            icon = (ImageView) itemView.findViewById(R.id.content_icon);
+            icon = (CircularImageView) itemView.findViewById(R.id.content_icon);
             desc = (TextView) itemView.findViewById(R.id.content_desc);
             title = (TextView) itemView.findViewById(R.id.content_title);
             time = (TextView) itemView.findViewById(R.id.content_time);

@@ -1,5 +1,6 @@
 package com.vanhely.passwordbox.ui;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
@@ -10,6 +11,7 @@ import com.vanhely.passwordbox.config.Config;
 import com.vanhely.passwordbox.model.PasswordBean;
 import com.vanhely.passwordbox.ui.base.BaseActivity;
 
+import org.litepal.crud.DataSupport;
 import org.litepal.tablemanager.Connector;
 
 import java.util.Date;
@@ -22,6 +24,7 @@ public class SplashActivity extends BaseActivity implements View.OnClickListener
 
     private static final String TAG = "SplashActivity";
     public static String time;
+
 
     @Override
     public int initContentView() {
@@ -44,11 +47,34 @@ public class SplashActivity extends BaseActivity implements View.OnClickListener
         boolean needProtect = sp.getBoolean(Config.needProtect, true);
         Log.i(TAG, protectState + "");
 
+
         if (splashStaus) {
             setDataBase();
 
 
         } else {
+            boolean updata = sp.getBoolean("updata", true);
+            if (updata) {
+                Connector.getDatabase();
+                for (int i = 0; i < Config.gameCount; i++) {
+                    ContentValues values = new ContentValues();
+                    values.put("imageId", Config.gameImages[i]);
+                    DataSupport.updateAll(PasswordBean.class, values, "image = ? and title = ?", "1", Config.gameNames[i]);
+                }
+
+                for (int i = 0; i < Config.toolCount; i++) {
+                    ContentValues values = new ContentValues();
+                    values.put("imageId", Config.toolImages[i]);
+                    DataSupport.updateAll(PasswordBean.class, values, "image = ? and title = ?", "1", Config.toolNames[i]);
+                }
+
+                for (int i = 0; i < Config.socialCount; i++) {
+                    ContentValues values = new ContentValues();
+                    values.put("imageId", Config.socialImages[i]);
+                    DataSupport.updateAll(PasswordBean.class, values, "image = ? and title = ?", "1", Config.socialNames[i]);
+                }
+            }
+
             if (protectState) {
                 if (needProtect) {
                     Intent intent = new Intent(SplashActivity.this, PasswordProtectActivity.class);
@@ -97,10 +123,11 @@ public class SplashActivity extends BaseActivity implements View.OnClickListener
             passwordBean.setPassword("");
             passwordBean.setUsername("");
             passwordBean.setImage("1");
+            passwordBean.setImagePath("");
+            passwordBean.setImageId(Config.gameImages[i]);
             passwordBean.setType("game");
             passwordBean.setSaveTime(time);
             passwordBean.save();
-
         }
     }
 
@@ -113,9 +140,13 @@ public class SplashActivity extends BaseActivity implements View.OnClickListener
             passwordBean.setPassword("");
             passwordBean.setUsername("");
             passwordBean.setImage("1");
+            passwordBean.setImagePath("");
+            passwordBean.setImageId(Config.toolImages[i]);
             passwordBean.setType("tool");
             passwordBean.setSaveTime(time);
             passwordBean.save();
+
+
         }
 
     }
@@ -129,9 +160,13 @@ public class SplashActivity extends BaseActivity implements View.OnClickListener
             passwordBean.setPassword("");
             passwordBean.setUsername("");
             passwordBean.setImage("1");
+            passwordBean.setImagePath("");
+            passwordBean.setImageId(Config.socialImages[i]);
             passwordBean.setType("social");
             passwordBean.setSaveTime(time);
             passwordBean.save();
+
+
         }
     }
 
