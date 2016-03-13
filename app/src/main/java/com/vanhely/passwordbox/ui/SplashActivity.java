@@ -28,7 +28,6 @@ public class SplashActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public int initContentView() {
-
         return R.layout.activity_splash;
 
     }

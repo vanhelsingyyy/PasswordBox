@@ -11,9 +11,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.siyamed.shapeimageview.CircularImageView;
+import com.squareup.picasso.Picasso;
 import com.vanhely.passwordbox.R;
 import com.vanhely.passwordbox.config.BoxAppliction;
+import com.vanhely.passwordbox.config.Config;
 import com.vanhely.passwordbox.model.PasswordBean;
+import com.vanhely.passwordbox.ui.fragment.GameFragment;
+import com.vanhely.passwordbox.ui.fragment.SocialFragment;
 
 import java.io.File;
 import java.util.List;
@@ -24,13 +28,12 @@ import java.util.List;
 public class ContentAdapter extends RecyclerView.Adapter {
 
 
-//    private int[] imageRes;
+
     private List<PasswordBean> passwordBeans;
     public OnItemClickListener onItemClickListener;
 
     public ContentAdapter(List<PasswordBean> passwordBeans) {
         this.passwordBeans = passwordBeans;
-//        this.imageRes = imageRes;
     }
 
     public void updataPasswordList(List<PasswordBean> passwordBeans) {
@@ -51,19 +54,19 @@ public class ContentAdapter extends RecyclerView.Adapter {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(BoxAppliction.getmContext()).inflate(R.layout.content_item, parent, false));
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.content_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
-
+        CircularImageView icon = ((ViewHolder) holder).icon;
         PasswordBean passwordBean = passwordBeans.get(position);
         String image = passwordBean.getImage();
         String imagePath = passwordBean.getImagePath();
         if (TextUtils.isEmpty(imagePath)) {
             if ("1".equals(image)) {
-                viewHolder.icon.setImageResource(passwordBean.getImageId());
+               icon.setImageResource(passwordBean.getImageId());
             } else {
                 viewHolder.icon.setImageResource(R.drawable.ic_launcher);
             }
@@ -77,6 +80,8 @@ public class ContentAdapter extends RecyclerView.Adapter {
                 Toast.makeText(BoxAppliction.getmContext(),"图片不存在",Toast.LENGTH_SHORT).show();
             }
         }
+
+
 
         viewHolder.title.setText(passwordBean.getTitle());
         viewHolder.desc.setText(passwordBean.getDesc());

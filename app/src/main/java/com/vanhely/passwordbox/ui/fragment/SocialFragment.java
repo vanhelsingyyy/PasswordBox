@@ -42,112 +42,23 @@ import de.greenrobot.event.EventBus;
  */
 public class SocialFragment extends BaseFragment implements View.OnClickListener {
 
+    public static final String TYPE = "social";
     private static final int CODE_PHOTO_REQUEST = 1;
     private static final int CODE_RESULT_REQUEST = 2;
-    private ContentAdapter adapter;
-    private List<PasswordBean> socials;
-    private View view;
-    private int longPosotion;
-    private PopupWindow popupWindow;
-    private FloatingActionButton fab;
-    private RecyclerView recyclerView;
     private FileOutputStream fos;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
-    }
+
 
 
     @Override
     public View creatView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_layout, container, false);
-        return view;
-    }
-
-    @Override
-    public void initViewId() {
-        recyclerView = (RecyclerView) view.findViewById(R.id.recylerview);
-        fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.attachToRecyclerView(recyclerView);
-        fab.setOnClickListener(this);
-        setAdapterandNotify();
-    }
-
-    @Override
-    public void initListener() {
-        adapter.setOnItemClickListener(new ContentAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View v, int position) {
-                startPaddingData(position);
-            }
-
-            @Override
-            public void onitemLongClick(View v, int posotion) {
-                showPopupWindow(v, posotion);
-            }
-
-            @Override
-            public void onIconClick(View v, int posotion) {
-                longPosotion = posotion;
-                setIcon();
-            }
-        });
-
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                if (popupWindow != null) {
-                    popupWindow.dismiss();
-                    popupWindow = null;
-                }
-            }
-        });
+        return inflater.inflate(R.layout.fragment_layout, container, false);
     }
 
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
-
-    private void startPaddingData(int position) {
-        Intent intent = new Intent(BoxAppliction.getmContext(), PaddingDataActivity.class);
-        PasswordBean passwordBean = socials.get(position);
-        intent.putExtra("password", passwordBean);
-        intent.putExtra("type", "social");
-        startActivity(intent);
-    }
-
-    private void showPopupWindow(View v, int posotion) {
-        View popView = LayoutInflater.from(BoxAppliction.getmContext()).inflate(R.layout.pop_window, null);
-        LinearLayout popEdit = (LinearLayout) popView.findViewById(R.id.pop_edit);
-        LinearLayout popClear = (LinearLayout) popView.findViewById(R.id.pop_clear);
-        LinearLayout popIcon = (LinearLayout) popView.findViewById(R.id.pop_icon);
-        longPosotion = posotion;
-        popEdit.setOnClickListener(this);
-        popClear.setOnClickListener(this);
-        popIcon.setOnClickListener(this);
-
-        if (popupWindow != null) {
-            popupWindow.dismiss();
-            popupWindow = null;
-        }
-        popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
-        int[] location = new int[2];
-        v.getLocationInWindow(location);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        popupWindow.showAtLocation(view, Gravity.RIGHT + Gravity.TOP, 80, location[1]);
-
+    public String setType() {
+        return TYPE;
     }
 
     public void onEventMainThread(String str) {
@@ -159,127 +70,5 @@ public class SocialFragment extends BaseFragment implements View.OnClickListener
     }
 
 
-    private void clearItem(int position) {
-        PasswordBean passwordBean = socials.get(position);
-        DataSupport.deleteAll(PasswordBean.class, "title = ? and saveTime = ?", passwordBean.getTitle(), passwordBean.getSaveTime());
-        setAdapterandNotify();
 
-    }
-
-    private void setAdapterandNotify() {
-        socials = DataSupport.where("type = ?", "social").find(PasswordBean.class);
-        if (adapter == null) {
-            adapter = new ContentAdapter(socials);
-            recyclerView.setLayoutManager(new LinearLayoutManager(BoxAppliction.getmContext()));
-            recyclerView.setAdapter(adapter);
-        } else {
-            adapter.updataPasswordList(socials);
-            adapter.notifyDataSetChanged();
-        }
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.fab:
-                Intent intent = new Intent(BoxAppliction.getmContext(), PaddingDataActivity.class);
-                intent.putExtra("type", "social");
-                startActivity(intent);
-                break;
-            case R.id.pop_edit:
-                startPaddingData(longPosotion);
-                popupWindow.dismiss();
-                break;
-            case R.id.pop_clear:
-                clearItem(longPosotion);
-                popupWindow.dismiss();
-                break;
-            case R.id.pop_icon:
-                setIcon();
-                popupWindow.dismiss();
-                break;
-        }
-
-
-    }
-
-    public void setIcon() {
-        Intent photeIntent = new Intent(Intent.ACTION_PICK, null);
-        photeIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-        startActivityForResult(photeIntent, CODE_PHOTO_REQUEST);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (resultCode == Activity.RESULT_CANCELED) {
-            return;
-        }
-        switch (requestCode) {
-            case CODE_PHOTO_REQUEST:
-                cropPhoto(data.getData());
-                break;
-            case CODE_RESULT_REQUEST:
-                if (data != null) {
-                    savaImagePath(data);
-                }
-        }
-
-
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void savaImagePath(Intent data) {
-        Bundle extras = data.getExtras();
-        Bitmap icon = extras.getParcelable("data");
-        String storageState = Environment.getExternalStorageState();
-        if (!storageState.equals(Environment.MEDIA_MOUNTED)) {
-            return;
-        }
-        String path = Environment.getExternalStorageDirectory().getAbsoluteFile() + "/PwrodBOX/";
-        File file = new File(path);
-        if (!file.exists()) {
-            file.mkdirs();
-        }
-        PasswordBean bean = socials.get(longPosotion);
-        String fileName = path + bean.getTitle() + ".jpg";
-        try {
-            fos = new FileOutputStream(fileName);
-            if (icon != null) {
-                icon.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                ContentValues values = new ContentValues();
-                values.put("imagePath", fileName);
-                DataSupport.updateAll(PasswordBean.class, values, "title = ? and saveTime = ?", bean.getTitle(), bean.getSaveTime());
-                setAdapterandNotify();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                fos.flush();
-                fos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-    }
-
-    private void cropPhoto(Uri uri) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-
-        intent.putExtra("crop", "true");
-        intent.putExtra("scale", true);
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-
-        intent.putExtra("outputX", 150);
-        intent.putExtra("outputY", 150);
-        intent.putExtra("return-data", true);
-
-        startActivityForResult(intent, CODE_RESULT_REQUEST);
-    }
 }

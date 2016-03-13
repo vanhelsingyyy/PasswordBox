@@ -30,4 +30,6 @@ dependencies {
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile files('libs/eventbus-2.4.0.jar')
     compile 'com.github.siyamed:android-shape-imageview:0.9.3'
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }
