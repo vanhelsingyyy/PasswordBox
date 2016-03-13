@@ -39,6 +39,7 @@ import de.greenrobot.event.EventBus;
 
 /**
  * Created by Administrator on 2016/1/12 0012.
+ *
  */
 public class GameFragment extends BaseFragment implements View.OnClickListener {
 
